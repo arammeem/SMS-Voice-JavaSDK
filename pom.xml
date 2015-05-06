@@ -4,6 +4,9 @@
 	<groupId>com.ots.sdk</groupId>
 	<artifactId>ots-java-sdk</artifactId>
 	<version>1.0</version>
+	<name>ots-java-sdk</name>
+	<description>Java helper library for OTS Services</description>
+	<url>http://otsdc.com</url>
 	<licenses>
 		<license>
 			<name>MIT License</name>
@@ -11,7 +14,19 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-
+	<developers>
+    		<developer>
+      			<name>OTS</name>
+      			<email>support@otsdc.com</email>
+      			<organization>OTS</organization>
+      			<organizationUrl>http://otsdc.com</organizationUrl>
+    		</developer>
+  	</developers>
+  	<scm>
+  		<developerConnection>scm:git:git@github.com:otsdc/OTSJavaSDK.git</developerConnection>
+  		<connection>scm:git:git@github.com:otsdc/OTSJavaSDK.git</connection>
+		<url>git@github.com:otsdc/OTSJavaSDK.git</url>
+	</scm>
 	<dependencies>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -34,9 +49,7 @@
 			<version>4.3</version>
 		</dependency>
 	</dependencies>
-	<scm>
-		<url>https://github.com/otsdc/OTSJavaSDK.git</url>
-	</scm>
+
 	<build>
 		<plugins>
 			<plugin>
