@@ -15,7 +15,7 @@ pom.xml
 ```
 If you want to compile it yourself, here's how:
 ```
-$ git clone git@github.com:otsdc/OTSJavaSDK
+$ git clone git@github.com:otsdc/OTSJavaSDK.git
 $ cd OTSJavaSDK
 $ mvn install       # Requires maven, download from http://maven.apache.org/download.html
 ```
