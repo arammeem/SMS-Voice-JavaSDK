@@ -39,6 +39,7 @@ import com.otsdc.sdk.model.call.TTSCallResponse;
 import com.otsdc.sdk.parser.serialize.DateConverter;
 import com.otsdc.sdk.resources.AResource;
 import com.otsdc.sdk.resources.IVoiceResource;
+import com.otsdc.sdk.resources.url.IVoiceUrl;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -55,10 +56,11 @@ import org.apache.http.client.HttpResponseException;
 public class VoiceResourceImpl extends AResource implements IVoiceResource {
 
     private Gson GSON;
-
-    public VoiceResourceImpl(String appSid) {
+    private IVoiceUrl voiceUrl;
+    public VoiceResourceImpl(String appSid, IVoiceUrl voiceUrl) {
         super(appSid);
-        GsonBuilder gsonBuilder = new GsonBuilder();
+    	this.voiceUrl = voiceUrl;
+    	GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Date.class, new DateConverter());
         GSON = gsonBuilder.create();
     }
@@ -70,7 +72,7 @@ public class VoiceResourceImpl extends AResource implements IVoiceResource {
 
     @Override
     public CallResponse call(Map<String, String> param) throws IOException {
-        OTSRestResponse response = sendRequest(URL_CALL, param);
+        OTSRestResponse response = sendRequest(voiceUrl.urlCall(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<CallResponse>>() {
             }.getType();
@@ -93,7 +95,7 @@ public class VoiceResourceImpl extends AResource implements IVoiceResource {
 
     @Override
     public CallStatusResponse getCallIDStatus(Map<String, String> param) throws IOException {
-        OTSRestResponse response = sendRequest(URL_GET_CALL_ID_STATUS, param);
+        OTSRestResponse response = sendRequest(voiceUrl.urlGetCallIDStatus(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<CallStatusResponse>>() {
             }.getType();
@@ -114,7 +116,7 @@ public class VoiceResourceImpl extends AResource implements IVoiceResource {
 
     @Override
     public CallsDetailsResponse getCallsDetails(Map<String, String> param) throws IOException {
-        OTSRestResponse response = sendRequest(URL_GET_CALLS_DETAILS, param);
+        OTSRestResponse response = sendRequest(voiceUrl.urlGetCallsDetails(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<CallsDetailsResponse>>() {
             }.getType();
@@ -135,7 +137,7 @@ public class VoiceResourceImpl extends AResource implements IVoiceResource {
 
     @Override
     public TTSCallResponse ttsCall(Map<String, String> param) throws IOException {
-        OTSRestResponse response = sendRequest(URL_TTS_CALL, param);
+        OTSRestResponse response = sendRequest(voiceUrl.urlTTSCall(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<TTSCallResponse>>() {
             }.getType();

@@ -23,6 +23,17 @@
  */
 package com.otsdc.sdk.resources.http;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.message.BasicNameValuePair;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -38,21 +49,10 @@ import com.otsdc.sdk.model.messages.MessagesDetailsRequest;
 import com.otsdc.sdk.model.messages.MessagesDetailsResponse;
 import com.otsdc.sdk.model.messages.MessagesReportRequest;
 import com.otsdc.sdk.model.messages.MessagesReportResponse;
-import com.otsdc.sdk.parser.serialize.BooleanConverter;
 import com.otsdc.sdk.parser.serialize.DateConverter;
 import com.otsdc.sdk.resources.AResource;
 import com.otsdc.sdk.resources.IMessageResource;
-
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpResponseException;
-import org.apache.http.message.BasicNameValuePair;
+import com.otsdc.sdk.resources.url.IMessageUrl;
 
 /**
  *
@@ -61,9 +61,10 @@ import org.apache.http.message.BasicNameValuePair;
 public class MessagesResourceImpl extends AResource implements IMessageResource {
 
     private Gson GSON;
-
-    public MessagesResourceImpl(String appSid) {
+    private IMessageUrl messageUrl;
+    public MessagesResourceImpl(String appSid, IMessageUrl messageUrl) {
         super(appSid);
+        this.messageUrl = messageUrl;
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Date.class, new DateConverter());
         GSON = gsonBuilder.create();
@@ -76,7 +77,7 @@ public class MessagesResourceImpl extends AResource implements IMessageResource 
 
     @Override
     public MessageResponse send(Map<String, String> param) throws IOException {
-        OTSRestResponse response = sendRequest(URL_SEND, param);
+        OTSRestResponse response = sendRequest(messageUrl.urlSend(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<MessageResponse>>() {
             }.getType();
@@ -94,7 +95,7 @@ public class MessagesResourceImpl extends AResource implements IMessageResource 
 
     @Override
     public BulkResponse sendBulk(Map<String, String> param) throws IOException {
-        OTSRestResponse response = sendRequest(URL_SEND_BULK, param);
+        OTSRestResponse response = sendRequest(messageUrl.urlSendBulk(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<BulkResponse>>() {
             }.getType();
@@ -109,7 +110,7 @@ public class MessagesResourceImpl extends AResource implements IMessageResource 
     public MessageIDStatus getMessageIDStatus(String messageID) throws IOException {
         ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair(ParamConstant.MESSAGEID, messageID));
-        OTSRestResponse response = sendRequest(URL_GET_MESSAGE_ID_STATUS, params);
+        OTSRestResponse response = sendRequest(messageUrl.urlGetMessageIDStatus(), params);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<MessageIDStatus>>() {
             }.getType();
@@ -122,7 +123,7 @@ public class MessagesResourceImpl extends AResource implements IMessageResource 
 
     @Override
     public MessagesReportResponse getMessagesReport(Map<String, String> param) throws IOException {
-        OTSRestResponse response = sendRequest(URL_GET_MESSAGE_REPORT, param);
+        OTSRestResponse response = sendRequest(messageUrl.urlGetMessageReport(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<MessagesReportResponse>>() {
             }.getType();
@@ -135,7 +136,7 @@ public class MessagesResourceImpl extends AResource implements IMessageResource 
 
     @Override
     public MessagesDetailsResponse getMessagesDetails(Map<String, String> param) throws IOException {
-        OTSRestResponse response = sendRequest(URL_GET_MESSAGE_DETAILS, param);
+        OTSRestResponse response = sendRequest(messageUrl.urlGetMessageDetails(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<MessagesDetailsResponse>>() {
             }.getType();

@@ -21,31 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.otsdc.sdk.resources;
+package com.otsdc.sdk.resources.url.impl;
 
-import com.otsdc.sdk.model.email.EmailReportRequest;
-import com.otsdc.sdk.model.email.EmailReportResponse;
-import com.otsdc.sdk.model.email.EmailRequest;
-import com.otsdc.sdk.model.email.EmailResponse;
-import com.otsdc.sdk.resources.IResource;
+import com.otsdc.sdk.resources.url.IAccountUrl;
+import com.otsdc.sdk.resources.url.IEmailUrl;
+import com.otsdc.sdk.resources.url.IMessageUrl;
+import com.otsdc.sdk.resources.url.IVerifyUrl;
+import com.otsdc.sdk.resources.url.IVoiceUrl;
 
-import java.io.IOException;
-import java.util.Map;
+public class DefaultOTSUrl extends AOTSUrl {
 
-/**
- * Email sub-resource is used to send emails to your audience.
- *
- * @author Eri Setiawan
- */
-public interface IEmailResource extends IResource {
+	public DefaultOTSUrl(String urlBase) {
+		super(urlBase);
+	}
 
-    public EmailResponse send(EmailRequest request) throws IOException;
+	@Override
+	IAccountUrl createAccountUrl() {
+		return new AccountUrlImpl(getUrlBase());
+	}
 
-    public EmailResponse send(Map<String, String> param) throws IOException;
+	@Override
+	IMessageUrl createMessageUrl() {
+		return new MessageUrlImpl(getUrlBase());
+	}
 
-    public EmailReportResponse getEmailsReport() throws IOException;
+	@Override
+	IVoiceUrl createVoiceUrl() {
+		return new VoiceUrlImpl(getUrlBase());
+	}
 
-    public EmailReportResponse getEmailsReport(EmailReportRequest request) throws IOException;
+	@Override
+	IEmailUrl createEmailUrl() {
+		return new EmailUrlImpl(getUrlBase());
+	}
 
-    public EmailReportResponse getEmailsReport(Map<String, String> param) throws IOException;
+	@Override
+	IVerifyUrl createVerifyUrl() {
+		return new VerifyUrl(getUrlBase());
+	}
+
 }

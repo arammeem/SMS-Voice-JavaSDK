@@ -44,7 +44,13 @@ public class AccountExample {
     public static void main(String[] args) {
         try {
             String appSid = "cYWr62UeR6mbGZw6qHWUhiVX8z5ed";
-            OTSRestClient client = new OTSRestClient(appSid);
+//            use HTTP
+            OTSRestClient client = new OTSRestClient(appSid,OTSRestClient.HTTP_URL);
+//            use HTTPS:
+//            OTSRestClient client = new OTSRestClient(appSid);
+//            or
+//            OTSRestClient client = new OTSRestClient(appSid,OTSRestClient.HTTPS_URL);
+            
             IAccountResource accountResource = client.getAccountResource();
             //ambil balance
             Balance balance = accountResource.getBalance();
@@ -71,13 +77,6 @@ public class AccountExample {
             
             ResponseModel<Voids> deleteSenderID = accountResource.deleteSenderID("1234567890");
             System.out.println("deleteSenderID:"+ deleteSenderID);
-//            IMessageResource messageResource = client1.getMessageResource();
-//            //kirim sms 
-//            MessageRequest messageRequest = new MessageRequest();
-//            messageRequest.setBody("Test Message SDK");
-//            messageRequest.setRecipient("962789309519");
-//            MessageResponse messageResponse = messageResource.send(messageRequest);
-//            System.out.println("Response:" + messageResponse);
         } catch (IOException ex) {
             Logger.getLogger(AccountExample.class.getName()).log(Level.SEVERE, null, ex);
         }

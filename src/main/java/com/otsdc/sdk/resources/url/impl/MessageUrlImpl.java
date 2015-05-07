@@ -21,31 +21,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.otsdc.sdk.resources;
+package com.otsdc.sdk.resources.url.impl;
 
-import com.otsdc.sdk.model.email.EmailReportRequest;
-import com.otsdc.sdk.model.email.EmailReportResponse;
-import com.otsdc.sdk.model.email.EmailRequest;
-import com.otsdc.sdk.model.email.EmailResponse;
-import com.otsdc.sdk.resources.IResource;
+import com.otsdc.sdk.resources.url.IMessageUrl;
 
-import java.io.IOException;
-import java.util.Map;
+public class MessageUrlImpl implements IMessageUrl {
 
-/**
- * Email sub-resource is used to send emails to your audience.
- *
- * @author Eri Setiawan
- */
-public interface IEmailResource extends IResource {
+	private String urlSend;
+	private String urlSendBulk;
+	private String urlGetMessageIDStatus;
+	private String urlGetMessageReport;
+	private String urlGetMessageDetails;
 
-    public EmailResponse send(EmailRequest request) throws IOException;
+	public MessageUrlImpl(String urlBase) {
+		String urlMessage = urlBase + PATH_MESSAGE;
+		urlSend = urlMessage + "Send";
+		urlSendBulk = urlMessage + "SendBulk";
+		urlGetMessageIDStatus = urlMessage + "GetMessageIDStatus";
+		urlGetMessageReport = urlMessage + "GetMessagesReport";
+		urlGetMessageDetails = urlMessage + "GetMessagesDetails";
+	}
 
-    public EmailResponse send(Map<String, String> param) throws IOException;
+	@Override
+	public String urlSend() {
+		return urlSend;
+	}
 
-    public EmailReportResponse getEmailsReport() throws IOException;
+	@Override
+	public String urlSendBulk() {
+		return urlSendBulk;
+	}
 
-    public EmailReportResponse getEmailsReport(EmailReportRequest request) throws IOException;
+	@Override
+	public String urlGetMessageIDStatus() {
+		return urlGetMessageIDStatus;
+	}
 
-    public EmailReportResponse getEmailsReport(Map<String, String> param) throws IOException;
+	@Override
+	public String urlGetMessageReport() {
+		return urlGetMessageReport;
+	}
+
+	@Override
+	public String urlGetMessageDetails() {
+		return urlGetMessageDetails;
+	}
+
 }

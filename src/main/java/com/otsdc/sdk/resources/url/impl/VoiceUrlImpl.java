@@ -21,31 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.otsdc.sdk.resources;
+package com.otsdc.sdk.resources.url.impl;
 
-import com.otsdc.sdk.model.email.EmailReportRequest;
-import com.otsdc.sdk.model.email.EmailReportResponse;
-import com.otsdc.sdk.model.email.EmailRequest;
-import com.otsdc.sdk.model.email.EmailResponse;
-import com.otsdc.sdk.resources.IResource;
+import com.otsdc.sdk.resources.url.IVoiceUrl;
 
-import java.io.IOException;
-import java.util.Map;
+public class VoiceUrlImpl implements IVoiceUrl {
 
-/**
- * Email sub-resource is used to send emails to your audience.
- *
- * @author Eri Setiawan
- */
-public interface IEmailResource extends IResource {
+	private String urlCall;
+	private String urlGetCallIDStatus;
+	private String urlGetCallsDetails;
+	private String urlTTSCall;
 
-    public EmailResponse send(EmailRequest request) throws IOException;
+	public VoiceUrlImpl(String urlBase) {
+		String urlVoice = urlBase + PATH_VOICE;
+		urlCall = urlVoice + "Call";
+		urlGetCallIDStatus = urlVoice + "GetCallIDStatus";
+		urlGetCallsDetails = urlVoice + "GetCallsDetails";
+		urlTTSCall = urlVoice + "TTSCall";
+	}
 
-    public EmailResponse send(Map<String, String> param) throws IOException;
+	@Override
+	public String urlCall() {
+		return urlCall;
+	}
 
-    public EmailReportResponse getEmailsReport() throws IOException;
+	@Override
+	public String urlGetCallIDStatus() {
+		return urlGetCallIDStatus;
+	}
 
-    public EmailReportResponse getEmailsReport(EmailReportRequest request) throws IOException;
+	@Override
+	public String urlGetCallsDetails() {
+		return urlGetCallsDetails;
+	}
 
-    public EmailReportResponse getEmailsReport(Map<String, String> param) throws IOException;
+	@Override
+	public String urlTTSCall() {
+		return urlTTSCall;
+	}
+
 }

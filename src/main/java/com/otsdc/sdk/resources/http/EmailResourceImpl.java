@@ -23,6 +23,14 @@
  */
 package com.otsdc.sdk.resources.http;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.http.client.HttpResponseException;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -35,14 +43,7 @@ import com.otsdc.sdk.model.email.EmailResponse;
 import com.otsdc.sdk.parser.serialize.DateConverter;
 import com.otsdc.sdk.resources.AResource;
 import com.otsdc.sdk.resources.IEmailResource;
-
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.http.client.HttpResponseException;
+import com.otsdc.sdk.resources.url.IEmailUrl;
 
 /**
  *
@@ -51,9 +52,11 @@ import org.apache.http.client.HttpResponseException;
 public class EmailResourceImpl extends AResource implements IEmailResource {
 
     private Gson GSON;
-
-    public EmailResourceImpl(String appSid) {
+    private IEmailUrl emailUrl;
+    
+    public EmailResourceImpl(String appSid,IEmailUrl emailUrl) {
         super(appSid);
+        this.emailUrl = emailUrl;
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Date.class, new DateConverter());
         GSON = gsonBuilder.create();
@@ -66,7 +69,7 @@ public class EmailResourceImpl extends AResource implements IEmailResource {
 
     @Override
     public EmailResponse send(Map<String, String> param) throws IOException {
-        OTSRestResponse response = sendRequest(URL_SEND, param);
+        OTSRestResponse response = sendRequest(emailUrl.urlSend(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<EmailResponse>>() {
             }.getType();
@@ -92,7 +95,7 @@ public class EmailResourceImpl extends AResource implements IEmailResource {
 
     @Override
     public EmailReportResponse getEmailsReport(Map<String, String> param) throws IOException {
-        OTSRestResponse response = sendRequest(URL_GET_EMAIL_REPORT, param);
+        OTSRestResponse response = sendRequest(emailUrl.urlGetEmailReport(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<EmailReportResponse>>() {
             }.getType();

@@ -42,12 +42,6 @@ import java.util.Map;
  */
 public interface IVoiceResource extends IResource {
 
-    public static final String URL_VOICE = URL_BASE_PROD + "Voice/";
-    public static final String URL_CALL = URL_VOICE + "Call";
-    public static final String URL_GET_CALL_ID_STATUS = URL_VOICE + "GetCallIDStatus";
-    public static final String URL_GET_CALLS_DETAILS = URL_VOICE + "GetCallsDetails";
-    public static final String URL_TTS_CALL = URL_VOICE + "TTSCall";
-
     public CallResponse call(CallRequest request) throws IOException;
 
     public CallResponse call(Map<String, String> param) throws IOException;

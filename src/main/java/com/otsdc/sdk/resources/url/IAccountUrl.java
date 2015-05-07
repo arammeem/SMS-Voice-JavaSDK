@@ -21,31 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.otsdc.sdk.resources;
+package com.otsdc.sdk.resources.url;
 
-import com.otsdc.sdk.model.email.EmailReportRequest;
-import com.otsdc.sdk.model.email.EmailReportResponse;
-import com.otsdc.sdk.model.email.EmailRequest;
-import com.otsdc.sdk.model.email.EmailResponse;
-import com.otsdc.sdk.resources.IResource;
+public interface IAccountUrl {
+	public static final String PATH_ACCOUNT = "Account/";
+	public String urlGetBalance();
 
-import java.io.IOException;
-import java.util.Map;
+	public String urlAddSenderID();
 
-/**
- * Email sub-resource is used to send emails to your audience.
- *
- * @author Eri Setiawan
- */
-public interface IEmailResource extends IResource {
+	public String urlGetSenderIDStatus();
 
-    public EmailResponse send(EmailRequest request) throws IOException;
+	public String urlGetSenderIDs();
 
-    public EmailResponse send(Map<String, String> param) throws IOException;
+	public String urlDeleteSenderID();
 
-    public EmailReportResponse getEmailsReport() throws IOException;
+	public String urlGetAppDefaultSenderID();
 
-    public EmailReportResponse getEmailsReport(EmailReportRequest request) throws IOException;
-
-    public EmailReportResponse getEmailsReport(Map<String, String> param) throws IOException;
+	public String urlChangeDefaultSenderID();
 }

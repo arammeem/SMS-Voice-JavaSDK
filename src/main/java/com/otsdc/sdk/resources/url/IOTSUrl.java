@@ -21,31 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.otsdc.sdk.resources;
+package com.otsdc.sdk.resources.url;
 
-import com.otsdc.sdk.model.email.EmailReportRequest;
-import com.otsdc.sdk.model.email.EmailReportResponse;
-import com.otsdc.sdk.model.email.EmailRequest;
-import com.otsdc.sdk.model.email.EmailResponse;
-import com.otsdc.sdk.resources.IResource;
+public interface IOTSUrl {
+	public IAccountUrl getAccountUrl();
 
-import java.io.IOException;
-import java.util.Map;
+	public IMessageUrl getMessageUrl();
 
-/**
- * Email sub-resource is used to send emails to your audience.
- *
- * @author Eri Setiawan
- */
-public interface IEmailResource extends IResource {
+	public IVoiceUrl getVoiceUrl();
 
-    public EmailResponse send(EmailRequest request) throws IOException;
+	public IEmailUrl getEmailUrl();
 
-    public EmailResponse send(Map<String, String> param) throws IOException;
+	public IVerifyUrl getVerifyUrl();
 
-    public EmailReportResponse getEmailsReport() throws IOException;
-
-    public EmailReportResponse getEmailsReport(EmailReportRequest request) throws IOException;
-
-    public EmailReportResponse getEmailsReport(Map<String, String> param) throws IOException;
 }

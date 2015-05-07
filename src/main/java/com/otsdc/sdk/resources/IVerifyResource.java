@@ -43,10 +43,6 @@ import java.util.Map;
  */
 public interface IVerifyResource extends IResource {
 
-    public static final String URL_VERIFY = URL_BASE_PROD + "Verify/";
-    public static final String URL_GET_CODE = URL_VERIFY + "GetCode";
-    public static final String URL_VERIFY_NUMBER = URL_VERIFY + "VerifyNumber";
-
     /**
      * Provide a user number to be verified and the GetCode method will send the
      * passcode via text message number to the provided number

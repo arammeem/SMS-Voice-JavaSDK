@@ -44,13 +44,6 @@ import java.util.Map;
  */
 public interface IMessageResource extends IResource {
 
-    public static final String URL_MESSAGES = URL_BASE_PROD + "Messages/";
-    public static final String URL_SEND = URL_MESSAGES + "Send";
-    public static final String URL_SEND_BULK = URL_MESSAGES + "SendBulk";
-    public static final String URL_GET_MESSAGE_ID_STATUS = URL_MESSAGES + "GetMessageIDStatus";
-    public static final String URL_GET_MESSAGE_REPORT = URL_MESSAGES + "GetMessagesReport";
-    public static final String URL_GET_MESSAGE_DETAILS = URL_MESSAGES + "GetMessagesDetails";
-
     /**
      * Send enables API to send a message for only one recipient; you must have
      * sufficient balance or an active package to send to your desired

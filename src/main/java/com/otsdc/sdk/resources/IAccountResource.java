@@ -41,15 +41,6 @@ import java.io.IOException;
  */
 public interface IAccountResource extends IResource {
 
-    static final String URL_ACCOUNT = URL_BASE_PROD + "Account/";
-    public static final String URL_GET_BALANCE = URL_ACCOUNT + "GetBalance";
-    public static final String URL_ADD_SENDER_ID = URL_ACCOUNT + "addSenderID";
-    public static final String URL_GET_SENDER_ID_STATUS = URL_ACCOUNT + "getSenderIDStatus";
-    public static final String URL_GET_SENDER_IDS = URL_ACCOUNT + "getSenderIDs";
-    public static final String URL_DELETE_SENDER_ID = URL_ACCOUNT + "DeleteSenderID";
-    public static final String URL_GET_DEFAULT_SENDER_ID = URL_ACCOUNT + "GetAppDefaultSenderID";
-    public static final String URL_CHANGE_DEFAULT_SENDER_ID = URL_ACCOUNT + "changeAppDefaultSenderID";
-
     public static final String PARAM_SENDER_ID = "SenderID";
 
     public Balance getBalance() throws IOException;

@@ -23,12 +23,17 @@
  */
 package com.otsdc.sdk.resources.http;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Date;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.message.BasicNameValuePair;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.otsdc.sdk.OTSRestResponse;
 import com.otsdc.sdk.model.ResponseModel;
@@ -40,15 +45,7 @@ import com.otsdc.sdk.parser.serialize.BooleanConverter;
 import com.otsdc.sdk.parser.serialize.DateConverter;
 import com.otsdc.sdk.resources.AResource;
 import com.otsdc.sdk.resources.IAccountResource;
-
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Date;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpResponseException;
-import org.apache.http.message.BasicNameValuePair;
+import com.otsdc.sdk.resources.url.IAccountUrl;
 
 /**
  *
@@ -57,9 +54,11 @@ import org.apache.http.message.BasicNameValuePair;
 public class AccountResourceImpl extends AResource implements IAccountResource {
 
     private Gson GSON;
+    private IAccountUrl accountUrl;
 
-    public AccountResourceImpl(String appSid) {
+    public AccountResourceImpl(String appSid,IAccountUrl accountUrl) {
         super(appSid);
+        this.accountUrl = accountUrl;
         GsonBuilder gsonBuilder = new GsonBuilder();
         BooleanConverter booleanConverter = new BooleanConverter();
         gsonBuilder.registerTypeAdapter(Boolean.class, booleanConverter);
@@ -71,7 +70,7 @@ public class AccountResourceImpl extends AResource implements IAccountResource {
     @Override
     public Balance getBalance() throws IOException {
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
-        OTSRestResponse response = sendRequest(URL_GET_BALANCE, param);
+        OTSRestResponse response = sendRequest(accountUrl.urlGetBalance(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<Balance>>() {
             }.getType();
@@ -90,7 +89,7 @@ public class AccountResourceImpl extends AResource implements IAccountResource {
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair(PARAM_SENDER_ID, senderID));
 
-        OTSRestResponse response = sendRequest(URL_ADD_SENDER_ID, param);
+        OTSRestResponse response = sendRequest(accountUrl.urlAddSenderID(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<SenderID>>() {
             }.getType();
@@ -110,7 +109,7 @@ public class AccountResourceImpl extends AResource implements IAccountResource {
     public SenderID getSenderIDStatus(String senderID) throws IOException {
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair(PARAM_SENDER_ID, senderID));
-        OTSRestResponse response = sendRequest(URL_GET_SENDER_ID_STATUS, param);
+        OTSRestResponse response = sendRequest(accountUrl.urlGetSenderIDStatus(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<SenderID>>() {
             }.getType();
@@ -129,7 +128,7 @@ public class AccountResourceImpl extends AResource implements IAccountResource {
     @Override
     public SenderList getSenderIDS() throws IOException {
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
-        OTSRestResponse response = sendRequest(URL_GET_SENDER_IDS, param);
+        OTSRestResponse response = sendRequest(accountUrl.urlGetSenderIDs(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<SenderList>>() {
             }.getType();
@@ -148,7 +147,7 @@ public class AccountResourceImpl extends AResource implements IAccountResource {
     public ResponseModel<Voids> deleteSenderID(String senderID) throws IOException {
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair(PARAM_SENDER_ID, senderID));
-        OTSRestResponse response = sendRequest(URL_DELETE_SENDER_ID, param);
+        OTSRestResponse response = sendRequest(accountUrl.urlDeleteSenderID(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<Voids>>() {
             }.getType();
@@ -165,7 +164,7 @@ public class AccountResourceImpl extends AResource implements IAccountResource {
     @Override
     public SenderID getAppDefaultSenderID() throws IOException {
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
-        OTSRestResponse response = sendRequest(URL_GET_DEFAULT_SENDER_ID, param);
+        OTSRestResponse response = sendRequest(accountUrl.urlGetAppDefaultSenderID(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<SenderID>>() {
             }.getType();
@@ -184,7 +183,7 @@ public class AccountResourceImpl extends AResource implements IAccountResource {
     public ResponseModel<Voids> changeAppDefaultSenderID(String senderID) throws IOException {
         ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
         param.add(new BasicNameValuePair(PARAM_SENDER_ID, senderID));
-        OTSRestResponse response = sendRequest(URL_CHANGE_DEFAULT_SENDER_ID, param);
+        OTSRestResponse response = sendRequest(accountUrl.urlChangeDefaultSenderID(), param);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<Voids>>() {
             }.getType();

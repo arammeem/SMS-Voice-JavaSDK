@@ -33,30 +33,39 @@ import com.otsdc.sdk.resources.http.EmailResourceImpl;
 import com.otsdc.sdk.resources.http.MessagesResourceImpl;
 import com.otsdc.sdk.resources.http.VerifyResourceImpl;
 import com.otsdc.sdk.resources.http.VoiceResourceImpl;
+import com.otsdc.sdk.resources.url.IOTSUrl;
+import com.otsdc.sdk.resources.url.impl.AOTSUrl;
+import com.otsdc.sdk.resources.url.impl.HttpOTSUrl;
+import com.otsdc.sdk.resources.url.impl.HttpsOTSUrl;
 
 /**
  *
  * @author Eri Setiawan
  */
 public class ResourceFactory {
-
-    public IAccountResource makeAccountResource(String appSid) {
-        return new AccountResourceImpl(appSid);
+	private IOTSUrl otsUrl;
+	
+    public ResourceFactory(IOTSUrl otsUrl) {
+		this.otsUrl = otsUrl;
+	}
+    
+	public IAccountResource makeAccountResource(String appSid) {
+        return new AccountResourceImpl(appSid, otsUrl.getAccountUrl());
     }
 
     public IEmailResource makeEmailResource(String appSid) {
-        return new EmailResourceImpl(appSid);
+        return new EmailResourceImpl(appSid, otsUrl.getEmailUrl());
     }
 
     public IVoiceResource makeVoiceResource(String appSid) {
-        return new VoiceResourceImpl(appSid);
+        return new VoiceResourceImpl(appSid, otsUrl.getVoiceUrl());
     }
 
     public IMessageResource makeMessageResource(String appSid) {
-        return new MessagesResourceImpl(appSid);
+        return new MessagesResourceImpl(appSid, otsUrl.getMessageUrl());
     }
 
     public IVerifyResource makeVerifyResource(String appSid) {
-        return new VerifyResourceImpl(appSid);
+        return new VerifyResourceImpl(appSid, otsUrl.getVerifyUrl());
     }
 }

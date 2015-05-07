@@ -29,10 +29,8 @@ package com.otsdc.sdk.resources;
  */
 public interface IResource {
 
-    public static final String URL_BASE_PROD = "http://api.otsdc.com/rest/";
+	public String getAppSid();
 
-    public String getAppSid();
-
-    public void setAppSid(String appSid);
+	public void setAppSid(String appSid);
 
 }

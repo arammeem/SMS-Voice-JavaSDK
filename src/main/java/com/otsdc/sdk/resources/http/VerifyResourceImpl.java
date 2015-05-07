@@ -35,6 +35,7 @@ import com.otsdc.sdk.model.verify.GetCodeResponse;
 import com.otsdc.sdk.parser.serialize.DateConverter;
 import com.otsdc.sdk.resources.AResource;
 import com.otsdc.sdk.resources.IVerifyResource;
+import com.otsdc.sdk.resources.url.IVerifyUrl;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -51,9 +52,11 @@ import org.apache.http.client.HttpResponseException;
 public class VerifyResourceImpl extends AResource implements IVerifyResource {
 
     private Gson GSON;
+    private IVerifyUrl verifyUrl;
 
-    public VerifyResourceImpl(String appSid) {
+    public VerifyResourceImpl(String appSid, IVerifyUrl verifyUrl) {
         super(appSid);
+        this.verifyUrl = verifyUrl;
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Date.class, new DateConverter());
         GSON = gsonBuilder.create();
@@ -66,7 +69,7 @@ public class VerifyResourceImpl extends AResource implements IVerifyResource {
 
     @Override
     public GetCodeResponse getCode(Map<String, String> map) throws IOException {
-        OTSRestResponse response = sendRequest(URL_GET_CODE, map);
+        OTSRestResponse response = sendRequest(verifyUrl.urlGetCode(), map);
         if (response.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<GetCodeResponse>>() {
             }.getType();
@@ -93,7 +96,7 @@ public class VerifyResourceImpl extends AResource implements IVerifyResource {
 
     @Override
     public ResponseModel<Voids> verifyNumber(Map<String, String> map) throws IOException {
-        OTSRestResponse otsResponse = sendRequest(URL_VERIFY_NUMBER, map);
+        OTSRestResponse otsResponse = sendRequest(verifyUrl.urlVerifyNumber(), map);
         if (otsResponse.getStatusCode() < 400) {
             Type type = new TypeToken<ResponseModel<Voids>>() {
             }.getType();

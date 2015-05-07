@@ -21,31 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.otsdc.sdk.resources;
+package com.otsdc.sdk.resources.url.impl;
 
-import com.otsdc.sdk.model.email.EmailReportRequest;
-import com.otsdc.sdk.model.email.EmailReportResponse;
-import com.otsdc.sdk.model.email.EmailRequest;
-import com.otsdc.sdk.model.email.EmailResponse;
-import com.otsdc.sdk.resources.IResource;
+import com.otsdc.sdk.resources.url.IEmailUrl;
 
-import java.io.IOException;
-import java.util.Map;
+public class EmailUrlImpl implements IEmailUrl {
+	private String urlSend;
+	private String urlGetEmailReport;
 
-/**
- * Email sub-resource is used to send emails to your audience.
- *
- * @author Eri Setiawan
- */
-public interface IEmailResource extends IResource {
+	public EmailUrlImpl(String urlBase) {
+		String urlEmail = urlBase + PATH_EMAIL;
+		urlSend = urlEmail + "Send";
+		urlGetEmailReport = urlEmail + "GetEmailsReport";
+	}
 
-    public EmailResponse send(EmailRequest request) throws IOException;
+	@Override
+	public String urlSend() {
+		return urlSend;
+	}
 
-    public EmailResponse send(Map<String, String> param) throws IOException;
+	@Override
+	public String urlGetEmailReport() {
+		return urlGetEmailReport;
+	}
 
-    public EmailReportResponse getEmailsReport() throws IOException;
-
-    public EmailReportResponse getEmailsReport(EmailReportRequest request) throws IOException;
-
-    public EmailReportResponse getEmailsReport(Map<String, String> param) throws IOException;
 }
