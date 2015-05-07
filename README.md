@@ -7,9 +7,9 @@ The easiest way to install ots-java-sdk is from Maven. You can add the following
 pom.xml
 ```xml
 <dependency>
-	<groupId>com.otsdc.sdk</groupId>
+	<groupId>com.otsdc</groupId>
 	<artifactId>ots-java-sdk</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<scope>compile</scope>
 </dependency>
 ```
