@@ -1,5 +1,5 @@
 # OTSJavaSDK
-OTS REST and SMPP APIs allows you to connect your apps directly to networks. Where you can integrate your apps to send text messages around the world. And also inquire meta-data about your account, text messages, and usage.
+OTS Java SDK allows you to connect your apps directly to networks. Where you can integrate your apps to send text messages around the world. And also inquire meta-data about your account, text messages, and usage.
 
 ## Installation
 The easiest way to install ots-java-sdk is from Maven. You can add the following dependency to your existing project, specifying the latest version in the version tag:
