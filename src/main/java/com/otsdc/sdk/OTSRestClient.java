@@ -69,7 +69,7 @@ public class OTSRestClient {
      * @param appSid the AppSid
      */
     public OTSRestClient(String appSid){
-    	this(appSid, HTTPS_URL);
+    	this(appSid, HTTP_URL);
     }
     
     public IOTSUrl getOtsUrl() {
