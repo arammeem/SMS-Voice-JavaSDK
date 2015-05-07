@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.otsdc</groupId>
 	<artifactId>ots-java-sdk</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1</version>
 	<name>ots-java-sdk</name>
 	<description>Java helper library for OTS Services</description>
 	<url>http://otsdc.com</url>
@@ -25,7 +25,7 @@
 		<developerConnection>scm:git:git@github.com:otsdc/OTSJavaSDK.git</developerConnection>
 		<connection>scm:git:git@github.com:otsdc/OTSJavaSDK.git</connection>
 		<url>git@github.com:otsdc/OTSJavaSDK.git</url>
-	  <tag>ots-java-sdk-1.0</tag>
+	  <tag>ots-java-sdk-1.1</tag>
   </scm>
 	<dependencies>
 		<dependency>
