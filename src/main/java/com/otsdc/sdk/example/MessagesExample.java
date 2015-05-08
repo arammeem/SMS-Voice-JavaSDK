@@ -51,11 +51,11 @@ public class MessagesExample {
 
     public static void main(String[] args) {
         try {
-            String appSid = "cYWr62UeR6mbGZw6qHWUhiVX8z5ed";
+            String appSid = "your appSid";
             OTSRestClient client = new OTSRestClient(appSid);
             IMessageResource messageResource = client.getMessageResource();
             //Send Message 1
-            MessageResponse sendResponse = messageResource.send(new MessageRequest("962789309519", "Content Message"));
+            MessageResponse sendResponse = messageResource.send(new MessageRequest("962789xxxxxx", "Content Message"));
             if (sendResponse.isSuccess()) {
                 System.out.println("SendResponse:" + sendResponse);
                 //Do something
@@ -64,34 +64,34 @@ public class MessagesExample {
             }
             //Send Message 2
             Map<String, String> messageMap = new HashMap<>();
-            messageMap.put("Recipient", "962789309519");
+            messageMap.put("Recipient", "962789xxxxxx");
             messageMap.put("Body", "Content Message2");
             MessageResponse sendResponse2 = messageResource.send(messageMap);
             System.out.println("SendResponse2:" + sendResponse2);
 
             //Send Bulk 1
             //for multiple destination separated by commas
-            BulkRequest bulkRequest1 = new BulkRequest("962789309519", "Bulk Request1");
+            BulkRequest bulkRequest1 = new BulkRequest("962789xxxxxx", "Bulk Request1");
             BulkResponse sendBulk1 = messageResource.sendBulk(bulkRequest1);
             System.out.println("SendBulk1:" + sendBulk1);
             //OR 
             //Send Bulk 2 recipient in List Using BulkRequest Class
             List<String> recipients = new ArrayList<String>();
-            recipients.add("962789309519");
+            recipients.add("962789xxxxxx");
             BulkRequest bulkRequest2 = new BulkRequest(recipients, "Bulk Request2");
             BulkResponse sendBulk2 = messageResource.sendBulk(bulkRequest2);
             System.out.println("SendBulk2:" + sendBulk2);
             //OR
             //Send Bulk 3 recipient in Array Using BulkRequest Class
             String[] recipientArray = new String[1];
-            recipientArray[0] = "962789309519";
+            recipientArray[0] = "962789xxxxxx";
             BulkRequest bulkRequest3 = new BulkRequest(recipientArray, "Bulk Request3");
             BulkResponse sendBulk3 = messageResource.sendBulk(bulkRequest3);
             System.out.println("SendBulk3:" + sendBulk3);
             //OR
             //Send Bulk 4 Using Map
             Map<String, String> bulkMap = new HashMap<String, String>();
-            bulkMap.put("Recipient", "962789309519");
+            bulkMap.put("Recipient", "962789xxxxxx");
             bulkMap.put("Body", "Bulk Request4");
             BulkResponse sendBulk4 = messageResource.sendBulk(bulkMap);
             System.out.println("SendBulk4:" + sendBulk4);

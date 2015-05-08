@@ -43,7 +43,7 @@ public class EmailExample {
 
     public static void main(String[] args) {
         try {
-            String appSid = "cYWr62UeR6mbGZw6qHWUhiVX8z5ed";
+            String appSid = "your appSid";
             OTSRestClient client = new OTSRestClient(appSid);
             IEmailResource er = client.getEmailResource();
             //Send Email without Subject

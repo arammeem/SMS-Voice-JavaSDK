@@ -43,7 +43,7 @@ public class AccountExample {
 
     public static void main(String[] args) {
         try {
-            String appSid = "cYWr62UeR6mbGZw6qHWUhiVX8z5ed";
+            String appSid = "your appSid";
 //            use HTTP
             OTSRestClient client = new OTSRestClient(appSid,OTSRestClient.HTTP_URL);
 //            use HTTPS:

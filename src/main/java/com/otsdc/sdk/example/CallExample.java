@@ -48,19 +48,19 @@ public class CallExample {
 
     public static void main(String[] args) {
         try {
-            String appSid = "cYWr62UeR6mbGZw6qHWUhiVX8z5ed";
+            String appSid = "your appSid";
             OTSRestClient client = new OTSRestClient(appSid);
             IVoiceResource vr = client.getVoiceResource();
 
             //Call 1
             CallRequest callRequest = new CallRequest();
             callRequest.setContent("https://voiceusa.s3.amazonaws.com/voiceWavFiles1423399184883.wav");
-            callRequest.setRecipient("962789309519");
+            callRequest.setRecipient("962789xxxxxx");
             CallResponse callResponse = vr.call(callRequest);
             System.out.println("CallResponse:" + callResponse);
             // Same as Call 2
             Map<String, String> map = new HashMap<>();
-            map.put("Recipient", "962789309519");
+            map.put("Recipient", "962789xxxxxx");
             map.put("Content", "https://voiceusa.s3.amazonaws.com/voiceWavFiles1423399184883.wav");
             CallResponse callResponse2 = vr.call(map);
             System.out.println("CallResponse2:" + callResponse2);
@@ -82,7 +82,7 @@ public class CallExample {
             CallsDetailsResponse callsDetails1 = vr.getCallsDetails();
             System.out.println("CallDetails1:" + callsDetails1);
             //TTS Call
-            TTSCallRequest ttsCallRequest = new TTSCallRequest("962789309519", "Test Text To Speech");
+            TTSCallRequest ttsCallRequest = new TTSCallRequest("962789xxxxxx", "Test Text To Speech");
             TTSCallResponse ttsCallResponse = vr.ttsCall(ttsCallRequest);
             System.out.println("TTS CAll Response:" + ttsCallResponse);
         } catch (IOException ex) {

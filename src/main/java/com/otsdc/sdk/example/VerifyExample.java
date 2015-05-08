@@ -42,16 +42,16 @@ public class VerifyExample {
 
     public static void main(String[] args) {
         try {
-            String appSid = "cYWr62UeR6mbGZw6qHWUhiVX8z5ed";
+            String appSid = "your appSid";
             OTSRestClient client = new OTSRestClient(appSid);
             IVerifyResource verifyResource = client.getVerifyResource();
 
             //Get Code
-            GetCodeRequest codeRequest = new GetCodeRequest("962789309519", "98765543");
+            GetCodeRequest codeRequest = new GetCodeRequest("962789xxxxxx", "98765543");
             GetCodeResponse codeResp = verifyResource.getCode(codeRequest);
             System.out.println("GetCodeResponse:" + codeResp);
             //verify Number
-            ResponseModel<Voids> verifyNumber = verifyResource.verifyNumber("962789309519", "98765543");
+            ResponseModel<Voids> verifyNumber = verifyResource.verifyNumber("962789xxxxxx", "98765543");
             System.out.println("Verified?:" + verifyNumber);
 
         } catch (IOException ex) {
