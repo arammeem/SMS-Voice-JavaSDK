@@ -23,7 +23,7 @@ $ mvn install       # Requires maven, download from http://maven.apache.org/down
 ## Example
 
 Here is the example to Use Message API
-```javva
+```java
 package com.otsdc.sdk.example;
 
 import com.otsdc.sdk.OTSRestClient;
