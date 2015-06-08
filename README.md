@@ -73,7 +73,7 @@ public class MessagesExample {
             System.out.println("SendResponse2:" + sendResponse2);
 
             //Send Bulk 1
-            //for multiple destination separated by commas , send bulk needs advance permissions please contact our support 		    //team to get the proper help
+            //for multiple destination separated by commas.
             BulkRequest bulkRequest1 = new BulkRequest("962789xxxxxx", "Bulk Request1");
             BulkResponse sendBulk1 = messageResource.sendBulk(bulkRequest1);
             System.out.println("SendBulk1:" + sendBulk1);
