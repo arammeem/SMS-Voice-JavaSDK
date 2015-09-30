@@ -1,9 +1,9 @@
 # REST API for Java 
 
-A simple HTTP based RESTful API library will enable your apps to send etext messages and make phone calls through [Unifonic Cloud Communication Platform] (http://www.unifonic.com)
+A simple HTTP based RESTful API library will enable your apps to send text messages and make phone calls through [Unifonic Cloud Communication Platform] (http://www.unifonic.com)
 
 ## Installation
-The easiest way to install OTS Java SDK is from Maven. You can add the following dependency to your existing project, specifying the latest version in the version tag:
+The easiest way to install the Java SDK is from Maven. You can add the following dependency to your existing project, specifying the latest version in the version tag:
 
 pom.xml
 ```xml
