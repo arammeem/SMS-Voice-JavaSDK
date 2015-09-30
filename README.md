@@ -1,6 +1,6 @@
-# OTS REST API for Java 
+# REST API for Java 
 
-A simple HTTP based RESTful API library will enable your apps to send emails and sms messages, make phone calls, and setup two-factor authentication through [OTS Cloud Communication Platform] (http://www.otsdc.com/en/site/login)
+A simple HTTP based RESTful API library will enable your apps to send etext messages and make phone calls, and setup two-factor authentication through [Unifonic Cloud Communication Platform] (http://www.unifonic.com)
 
 ## Installation
 The easiest way to install OTS Java SDK is from Maven. You can add the following dependency to your existing project, specifying the latest version in the version tag:
