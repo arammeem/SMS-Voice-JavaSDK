@@ -8,7 +8,7 @@ The easiest way to install the Java SDK is from Maven. You can add the following
 pom.xml
 ```xml
 <dependency>
-	<groupId>com.otsdc</groupId>
+	<groupId>com.unifonic</groupId>
 	<artifactId>ots-java-sdk</artifactId>
 	<version>1.1</version>
 	<scope>compile</scope>
@@ -16,8 +16,8 @@ pom.xml
 ```
 If you want to compile it yourself, here's how:
 ```
-$ git clone git@github.com:otsdc/OTSJavaSDK.git
-$ cd OTSJavaSDK
+$ git clone git@github.com:unifonic/UNIFONICJavaSDK.git
+$ cd UNIFONICJavaSDK
 $ mvn install       # Requires maven, download from http://maven.apache.org/download.html
 ```
 
@@ -25,19 +25,19 @@ $ mvn install       # Requires maven, download from http://maven.apache.org/down
 
 Here is the example to Use Message API
 ```java
-package com.otsdc.sdk.example;
+package com.unifonic.sdk.example;
 
-import com.otsdc.sdk.OTSRestClient;
-import com.otsdc.sdk.model.messages.BulkRequest;
-import com.otsdc.sdk.model.messages.BulkResponse;
-import com.otsdc.sdk.model.messages.MessageIDStatus;
-import com.otsdc.sdk.model.messages.MessageRequest;
-import com.otsdc.sdk.model.messages.MessageResponse;
-import com.otsdc.sdk.model.messages.MessagesDetailsRequest;
-import com.otsdc.sdk.model.messages.MessagesDetailsResponse;
-import com.otsdc.sdk.model.messages.MessagesReportRequest;
-import com.otsdc.sdk.model.messages.MessagesReportResponse;
-import com.otsdc.sdk.resources.IMessageResource;
+import com.unifonic.sdk.UNIFONICRestClient;
+import com.unifonic.sdk.model.messages.BulkRequest;
+import com.unifonic.sdk.model.messages.BulkResponse;
+import com.unifonic.sdk.model.messages.MessageIDStatus;
+import com.unifonic.sdk.model.messages.MessageRequest;
+import com.unifonic.sdk.model.messages.MessageResponse;
+import com.unifonic.sdk.model.messages.MessagesDetailsRequest;
+import com.unifonic.sdk.model.messages.MessagesDetailsResponse;
+import com.unifonic.sdk.model.messages.MessagesReportRequest;
+import com.unifonic.sdk.model.messages.MessagesReportResponse;
+import com.unifonic.sdk.resources.IMessageResource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,7 +55,7 @@ public class MessagesExample {
     public static void main(String[] args) {
         try {
             String appSid = "your appSid";
-            OTSRestClient client = new OTSRestClient(appSid);
+            UNIFONICRestClient client = new UNIFONICRestClient(appSid);
             IMessageResource messageResource = client.getMessageResource();
             //Send Message 1
             MessageResponse sendResponse = messageResource.send(new MessageRequest("962789xxxxxx", "Content Message"));
@@ -137,7 +137,3 @@ public class MessagesExample {
 }
 
 ```
-
-
-
-
