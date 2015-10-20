@@ -9,7 +9,7 @@ pom.xml
 ```xml
 <dependency>
 	<groupId>com.unifonic</groupId>
-	<artifactId>ots-java-sdk</artifactId>
+	<artifactId>unifonic-java-sdk</artifactId>
 	<version>1.1</version>
 	<scope>compile</scope>
 </dependency>
