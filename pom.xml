@@ -1,11 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.otsdc</groupId>
-	<artifactId>ots-java-sdk</artifactId>
-	<version>1.2-SNAPSHOT</version>
-	<name>ots-java-sdk</name>
-	<description>Java helper library for OTS Services</description>
-	<url>http://otsdc.com</url>
+	<groupId>com.unifonic</groupId>
+	<artifactId>unifonic-java-sdk</artifactId>
+	<version>1.0</version>
+	<name>unifonic-java-sdk</name>
+	<description>Java helper library for Unifonic Services</description>
+	<url>http://Unifonic.com</url>
+
 	<licenses>
 		<license>
 			<name>MIT License</name>
@@ -15,18 +17,18 @@
 	</licenses>
 	<developers>
 		<developer>
-			<name>OTS</name>
-			<email>support@otsdc.com</email>
-			<organization>OTS</organization>
-			<organizationUrl>http://otsdc.com</organizationUrl>
+			<name>Unifonic</name>
+			<email>support@unifonic.com</email>
+			<organization>Unifonic</organization>
+			<organizationUrl>http://unifonic.com</organizationUrl>
 		</developer>
 	</developers>
 	<scm>
-		<developerConnection>scm:git:git@github.com:otsdc/OTSJavaSDK.git</developerConnection>
-		<connection>scm:git:git@github.com:otsdc/OTSJavaSDK.git</connection>
-		<url>git@github.com:otsdc/OTSJavaSDK.git</url>
-	  <tag>ots-java-sdk-1.0</tag>
-  </scm>
+		<developerConnection>scm:git:git@github.com:Unifonic/SMS-Voice-JavaSDK.git</developerConnection>
+		<connection>scm:git:git@github.com:Unifonic/SMS-Voice-JavaSDK.git</connection>
+		<url>git@github.com:Unifonic/SMS-Voice-JavaSDK.git</url>
+		<tag>unifonic-java-sdk-1.0</tag>
+	</scm>
 	<dependencies>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -74,9 +76,9 @@
 							<author>true</author>
 							<version>true</version>
 							<use>true</use>
-							<windowtitle>OTS Java</windowtitle>
-							<doctitle><![CDATA[<h1>OTS Java</h1>]]></doctitle>
-							<bottom><![CDATA[<i>Copyright &#169; 2015 OTS. All Rights Reserved.</i>]]></bottom>
+							<windowtitle>Unifonic Java</windowtitle>
+							<doctitle><![CDATA[<h1>Unifonic Java</h1>]]></doctitle>
+							<bottom><![CDATA[<i>Copyright &#169; 2015 Unifonic. All Rights Reserved.</i>]]></bottom>
 						</configuration>
 						<executions>
 							<execution>
@@ -129,25 +131,25 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
-<!-- 				<artifactId>maven-assembly-plugin</artifactId> -->
-<!-- 				<version>2.5.4</version> -->
-<!-- 				<configuration> -->
-<!-- 					<descriptorRefs> -->
-<!-- 						<descriptorRef>jar-with-dependencies</descriptorRef> -->
-<!-- 					</descriptorRefs> -->
-<!-- 				</configuration> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<id>make-assembly</id> -->
-<!-- 						<phase>package</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>single</goal> -->
-<!-- 						</goals> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
+			<!-- <plugin> -->
+			<!-- <groupId>org.apache.maven.plugins</groupId> -->
+			<!-- <artifactId>maven-assembly-plugin</artifactId> -->
+			<!-- <version>2.5.4</version> -->
+			<!-- <configuration> -->
+			<!-- <descriptorRefs> -->
+			<!-- <descriptorRef>jar-with-dependencies</descriptorRef> -->
+			<!-- </descriptorRefs> -->
+			<!-- </configuration> -->
+			<!-- <executions> -->
+			<!-- <execution> -->
+			<!-- <id>make-assembly</id> -->
+			<!-- <phase>package</phase> -->
+			<!-- <goals> -->
+			<!-- <goal>single</goal> -->
+			<!-- </goals> -->
+			<!-- </execution> -->
+			<!-- </executions> -->
+			<!-- </plugin> -->
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
