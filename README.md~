@@ -5,7 +5,6 @@ A simple HTTP based RESTful API library will enable your apps to send text messa
 ## Installation
 The easiest way to install the Java SDK is from Maven. You can add the following dependency to your existing project, specifying the latest version in the version tag:
 
-
 pom.xml
 ```xml
 <dependency>
