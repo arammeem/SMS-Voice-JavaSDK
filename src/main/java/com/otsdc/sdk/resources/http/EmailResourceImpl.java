@@ -23,16 +23,6 @@
  */
 package com.otsdc.sdk.resources.http;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.http.client.HttpResponseException;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.otsdc.sdk.OTSRestResponse;
 import com.otsdc.sdk.model.ResponseModel;
@@ -40,26 +30,25 @@ import com.otsdc.sdk.model.email.EmailReportRequest;
 import com.otsdc.sdk.model.email.EmailReportResponse;
 import com.otsdc.sdk.model.email.EmailRequest;
 import com.otsdc.sdk.model.email.EmailResponse;
-import com.otsdc.sdk.parser.serialize.DateConverter;
 import com.otsdc.sdk.resources.AResource;
+import com.otsdc.sdk.resources.ApiException;
 import com.otsdc.sdk.resources.IEmailResource;
 import com.otsdc.sdk.resources.url.IEmailUrl;
+import org.apache.http.HttpStatus;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- *
  * @author Eri Setiawan
  */
 public class EmailResourceImpl extends AResource implements IEmailResource {
-
-    private Gson GSON;
     private IEmailUrl emailUrl;
-    
-    public EmailResourceImpl(String appSid,IEmailUrl emailUrl) {
+
+    public EmailResourceImpl(String appSid, IEmailUrl emailUrl) {
         super(appSid);
         this.emailUrl = emailUrl;
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Date.class, new DateConverter());
-        GSON = gsonBuilder.create();
     }
 
     @Override
@@ -70,22 +59,20 @@ public class EmailResourceImpl extends AResource implements IEmailResource {
     @Override
     public EmailResponse send(Map<String, String> param) throws IOException {
         OTSRestResponse response = sendRequest(emailUrl.urlSend(), param);
-        if (response.getStatusCode() < 400) {
-            Type type = new TypeToken<ResponseModel<EmailResponse>>() {
-            }.getType();
-            ResponseModel<EmailResponse> respData = GSON.fromJson(response.getData(), type);
-            return respData.create();
-        } else if (response.getStatusCode() == 400) {
-            EmailResponse resp = GSON.fromJson(response.getData(), EmailResponse.class);
-            return resp;
+        int statusCode = response.getStatusCode();
+        ResponseModel<EmailResponse> responseModel = getResponseModel(response,
+                new TypeToken<ResponseModel<EmailResponse>>() {
+                }.getType());
+        if (statusCode > 0 && statusCode < HttpStatus.SC_BAD_REQUEST) {
+            return responseModel.create();
         } else {
-            throw new HttpResponseException(response.getStatusCode(), response.getReasonPhrase());
+            throw new ApiException(response.getReasonPhrase(), statusCode, responseModel.getMessage(), null);
         }
     }
 
     @Override
     public EmailReportResponse getEmailsReport() throws IOException {
-        return getEmailsReport(new HashMap<String, String>(0));
+        return getEmailsReport(new HashMap<>(0));
     }
 
     @Override
@@ -96,17 +83,15 @@ public class EmailResourceImpl extends AResource implements IEmailResource {
     @Override
     public EmailReportResponse getEmailsReport(Map<String, String> param) throws IOException {
         OTSRestResponse response = sendRequest(emailUrl.urlGetEmailReport(), param);
-        if (response.getStatusCode() < 400) {
-            Type type = new TypeToken<ResponseModel<EmailReportResponse>>() {
-            }.getType();
-            ResponseModel<EmailReportResponse> respData = GSON.fromJson(response.getData(), type);
-            return respData.create();
-        } else if (response.getStatusCode() == 400) {
-            EmailReportResponse resp = GSON.fromJson(response.getData(), EmailReportResponse.class);
-            return resp;
+        int statusCode = response.getStatusCode();
+        ResponseModel<EmailReportResponse> responseModel = getResponseModel(response,
+                new TypeToken<ResponseModel<EmailReportResponse>>() {
+                }.getType());
+        if (statusCode > 0 && statusCode < HttpStatus.SC_BAD_REQUEST) {
+            return responseModel.create();
         } else {
-            throw new HttpResponseException(response.getStatusCode(), response.getReasonPhrase());
+            throw new ApiException(response.getReasonPhrase(), statusCode, responseModel.getMessage(), null);
         }
     }
-
 }
+

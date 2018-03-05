@@ -23,46 +23,30 @@
  */
 package com.otsdc.sdk.resources.http;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.otsdc.sdk.OTSRestResponse;
 import com.otsdc.sdk.constant.ParamConstant;
 import com.otsdc.sdk.model.ResponseModel;
-import com.otsdc.sdk.model.call.CallRequest;
-import com.otsdc.sdk.model.call.CallResponse;
-import com.otsdc.sdk.model.call.CallStatusResponse;
-import com.otsdc.sdk.model.call.CallsDetailsRequest;
-import com.otsdc.sdk.model.call.CallsDetailsResponse;
-import com.otsdc.sdk.model.call.TTSCallRequest;
-import com.otsdc.sdk.model.call.TTSCallResponse;
-import com.otsdc.sdk.parser.serialize.DateConverter;
+import com.otsdc.sdk.model.call.*;
 import com.otsdc.sdk.resources.AResource;
+import com.otsdc.sdk.resources.ApiException;
 import com.otsdc.sdk.resources.IVoiceResource;
 import com.otsdc.sdk.resources.url.IVoiceUrl;
+import org.apache.http.HttpStatus;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.client.HttpResponseException;
-
 /**
- *
  * @author Eri Setiawan
  */
 public class VoiceResourceImpl extends AResource implements IVoiceResource {
-
-    private Gson GSON;
     private IVoiceUrl voiceUrl;
+
     public VoiceResourceImpl(String appSid, IVoiceUrl voiceUrl) {
         super(appSid);
-    	this.voiceUrl = voiceUrl;
-    	GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Date.class, new DateConverter());
-        GSON = gsonBuilder.create();
+        this.voiceUrl = voiceUrl;
     }
 
     @Override
@@ -73,16 +57,14 @@ public class VoiceResourceImpl extends AResource implements IVoiceResource {
     @Override
     public CallResponse call(Map<String, String> param) throws IOException {
         OTSRestResponse response = sendRequest(voiceUrl.urlCall(), param);
-        if (response.getStatusCode() < 400) {
-            Type type = new TypeToken<ResponseModel<CallResponse>>() {
-            }.getType();
-            ResponseModel<CallResponse> respData = GSON.fromJson(response.getData(), type);
-            return respData.create();
-        } else if (response.getStatusCode() == 400) {
-            CallResponse resp = GSON.fromJson(response.getData(), CallResponse.class);
-            return resp;
+        int statusCode = response.getStatusCode();
+        ResponseModel<CallResponse> responseModel = getResponseModel(response,
+                new TypeToken<ResponseModel<CallResponse>>() {
+                }.getType());
+        if (statusCode > 0 && statusCode < HttpStatus.SC_BAD_REQUEST) {
+            return responseModel.create();
         } else {
-            throw new HttpResponseException(response.getStatusCode(), response.getReasonPhrase());
+            throw new ApiException(response.getReasonPhrase(), statusCode, responseModel.getMessage(), null);
         }
     }
 
@@ -96,16 +78,14 @@ public class VoiceResourceImpl extends AResource implements IVoiceResource {
     @Override
     public CallStatusResponse getCallIDStatus(Map<String, String> param) throws IOException {
         OTSRestResponse response = sendRequest(voiceUrl.urlGetCallIDStatus(), param);
-        if (response.getStatusCode() < 400) {
-            Type type = new TypeToken<ResponseModel<CallStatusResponse>>() {
-            }.getType();
-            ResponseModel<CallStatusResponse> respData = GSON.fromJson(response.getData(), type);
-            return respData.create();
-        } else if (response.getStatusCode() == 400) {
-            CallStatusResponse resp = GSON.fromJson(response.getData(), CallStatusResponse.class);
-            return resp;
+        int statusCode = response.getStatusCode();
+        ResponseModel<CallStatusResponse> responseModel = getResponseModel(response,
+                new TypeToken<ResponseModel<CallStatusResponse>>() {
+                }.getType());
+        if (statusCode > 0 && statusCode < HttpStatus.SC_BAD_REQUEST) {
+            return responseModel.create();
         } else {
-            throw new HttpResponseException(response.getStatusCode(), response.getReasonPhrase());
+            throw new ApiException(response.getReasonPhrase(), statusCode, responseModel.getMessage(), null);
         }
     }
 
@@ -117,16 +97,14 @@ public class VoiceResourceImpl extends AResource implements IVoiceResource {
     @Override
     public CallsDetailsResponse getCallsDetails(Map<String, String> param) throws IOException {
         OTSRestResponse response = sendRequest(voiceUrl.urlGetCallsDetails(), param);
-        if (response.getStatusCode() < 400) {
-            Type type = new TypeToken<ResponseModel<CallsDetailsResponse>>() {
-            }.getType();
-            ResponseModel<CallsDetailsResponse> respData = GSON.fromJson(response.getData(), type);
-            return respData.create();
-        } else if (response.getStatusCode() == 400) {
-            CallsDetailsResponse resp = GSON.fromJson(response.getData(), CallsDetailsResponse.class);
-            return resp;
+        int statusCode = response.getStatusCode();
+        ResponseModel<CallsDetailsResponse> responseModel = getResponseModel(response,
+                new TypeToken<ResponseModel<CallsDetailsResponse>>() {
+                }.getType());
+        if (statusCode > 0 && statusCode < HttpStatus.SC_BAD_REQUEST) {
+            return responseModel.create();
         } else {
-            throw new HttpResponseException(response.getStatusCode(), response.getReasonPhrase());
+            throw new ApiException(response.getReasonPhrase(), statusCode, responseModel.getMessage(), null);
         }
     }
 
@@ -138,22 +116,20 @@ public class VoiceResourceImpl extends AResource implements IVoiceResource {
     @Override
     public TTSCallResponse ttsCall(Map<String, String> param) throws IOException {
         OTSRestResponse response = sendRequest(voiceUrl.urlTTSCall(), param);
-        if (response.getStatusCode() < 400) {
-            Type type = new TypeToken<ResponseModel<TTSCallResponse>>() {
-            }.getType();
-            ResponseModel<TTSCallResponse> respData = GSON.fromJson(response.getData(), type);
-            return respData.create();
-        } else if (response.getStatusCode() == 400) {
-            TTSCallResponse resp = GSON.fromJson(response.getData(), TTSCallResponse.class);
-            return resp;
+        int statusCode = response.getStatusCode();
+        ResponseModel<TTSCallResponse> responseModel = getResponseModel(response,
+                new TypeToken<ResponseModel<TTSCallResponse>>() {
+                }.getType());
+        if (statusCode > 0 && statusCode < HttpStatus.SC_BAD_REQUEST) {
+            return responseModel.create();
         } else {
-            throw new HttpResponseException(response.getStatusCode(), response.getReasonPhrase());
+            throw new ApiException(response.getReasonPhrase(), statusCode, responseModel.getMessage(), null);
         }
     }
 
     @Override
     public CallsDetailsResponse getCallsDetails() throws IOException {
-        return getCallsDetails(new HashMap<String, String>());
+        return getCallsDetails(new HashMap<>());
     }
-
 }
+
