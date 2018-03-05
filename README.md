@@ -9,7 +9,7 @@ pom.xml
 <dependency>
 	<groupId>com.otsdc</groupId>
 	<artifactId>ots-java-sdk</artifactId>
-	<version>1.0</version>
+	<version>1.2</version>
 	<scope>compile</scope>
 </dependency>
 ```

@@ -1,0 +1,21 @@
+machine:
+  java:
+    version: oraclejdk8
+
+dependencies:
+  override:
+    - mvn -q dependency:resolve-plugins
+    - mvn -q clean test -DskipTests
+
+test:
+  override:
+    - mvn -q verify
+  post:
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+
+deployment:
+  develop:
+    branch: develop
+    commands:
+      - ./circleci/circle_aws_deploy.sh

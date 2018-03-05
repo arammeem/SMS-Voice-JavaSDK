@@ -23,51 +23,33 @@
  */
 package com.otsdc.sdk.resources.http;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpResponseException;
-import org.apache.http.message.BasicNameValuePair;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.otsdc.sdk.OTSRestResponse;
 import com.otsdc.sdk.constant.ParamConstant;
 import com.otsdc.sdk.model.ResponseModel;
-import com.otsdc.sdk.model.messages.BulkRequest;
-import com.otsdc.sdk.model.messages.BulkResponse;
-import com.otsdc.sdk.model.messages.MessageIDStatus;
-import com.otsdc.sdk.model.messages.MessageRequest;
-import com.otsdc.sdk.model.messages.MessageResponse;
-import com.otsdc.sdk.model.messages.MessagesDetailsRequest;
-import com.otsdc.sdk.model.messages.MessagesDetailsResponse;
-import com.otsdc.sdk.model.messages.MessagesReportRequest;
-import com.otsdc.sdk.model.messages.MessagesReportResponse;
-import com.otsdc.sdk.parser.serialize.DateConverter;
+import com.otsdc.sdk.model.messages.*;
 import com.otsdc.sdk.resources.AResource;
+import com.otsdc.sdk.resources.ApiException;
 import com.otsdc.sdk.resources.IMessageResource;
 import com.otsdc.sdk.resources.url.IMessageUrl;
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- *
  * @author Eri Setiawan
  */
 public class MessagesResourceImpl extends AResource implements IMessageResource {
-
-    private Gson GSON;
     private IMessageUrl messageUrl;
+
     public MessagesResourceImpl(String appSid, IMessageUrl messageUrl) {
         super(appSid);
         this.messageUrl = messageUrl;
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Date.class, new DateConverter());
-        GSON = gsonBuilder.create();
     }
 
     @Override
@@ -78,13 +60,14 @@ public class MessagesResourceImpl extends AResource implements IMessageResource 
     @Override
     public MessageResponse send(Map<String, String> param) throws IOException {
         OTSRestResponse response = sendRequest(messageUrl.urlSend(), param);
-        if (response.getStatusCode() < 400) {
-            Type type = new TypeToken<ResponseModel<MessageResponse>>() {
-            }.getType();
-            ResponseModel<MessageResponse> respData = GSON.fromJson(response.getData(), type);
-            return respData.create();
+        int statusCode = response.getStatusCode();
+        ResponseModel<MessageResponse> responseModel = getResponseModel(response,
+                new TypeToken<ResponseModel<MessageResponse>>() {
+                }.getType());
+        if (statusCode > 0 && statusCode < HttpStatus.SC_BAD_REQUEST) {
+            return responseModel.create();
         } else {
-            throw new HttpResponseException(response.getStatusCode(), response.getReasonPhrase());
+            throw new ApiException(response.getReasonPhrase(), statusCode, responseModel.getMessage(), null);
         }
     }
 
@@ -96,60 +79,64 @@ public class MessagesResourceImpl extends AResource implements IMessageResource 
     @Override
     public BulkResponse sendBulk(Map<String, String> param) throws IOException {
         OTSRestResponse response = sendRequest(messageUrl.urlSendBulk(), param);
-        if (response.getStatusCode() < 400) {
-            Type type = new TypeToken<ResponseModel<BulkResponse>>() {
-            }.getType();
-            ResponseModel<BulkResponse> respData = GSON.fromJson(response.getData(), type);
-            return respData.create();
+        int statusCode = response.getStatusCode();
+        ResponseModel<BulkResponse> responseModel = getResponseModel(response,
+                new TypeToken<ResponseModel<BulkResponse>>() {
+                }.getType());
+        if (statusCode > 0 && statusCode < HttpStatus.SC_BAD_REQUEST) {
+            return responseModel.create();
         } else {
-            throw new HttpResponseException(response.getStatusCode(), response.getReasonPhrase());
+            throw new ApiException(response.getReasonPhrase(), statusCode, responseModel.getMessage(), null);
         }
     }
 
     @Override
     public MessageIDStatus getMessageIDStatus(String messageID) throws IOException {
-        ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+        ArrayList<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair(ParamConstant.MESSAGEID, messageID));
         OTSRestResponse response = sendRequest(messageUrl.urlGetMessageIDStatus(), params);
-        if (response.getStatusCode() < 400) {
-            Type type = new TypeToken<ResponseModel<MessageIDStatus>>() {
-            }.getType();
-            ResponseModel<MessageIDStatus> respData = GSON.fromJson(response.getData(), type);
-            return respData.create();
+        int statusCode = response.getStatusCode();
+        ResponseModel<MessageIDStatus> responseModel = getResponseModel(response,
+                new TypeToken<ResponseModel<MessageIDStatus>>() {
+                }.getType());
+        if (statusCode > 0 && statusCode < HttpStatus.SC_BAD_REQUEST) {
+            return responseModel.create();
         } else {
-            throw new HttpResponseException(response.getStatusCode(), response.getReasonPhrase());
+            throw new ApiException(response.getReasonPhrase(), statusCode, responseModel.getMessage(), null);
         }
     }
 
     @Override
     public MessagesReportResponse getMessagesReport(Map<String, String> param) throws IOException {
         OTSRestResponse response = sendRequest(messageUrl.urlGetMessageReport(), param);
-        if (response.getStatusCode() < 400) {
-            Type type = new TypeToken<ResponseModel<MessagesReportResponse>>() {
-            }.getType();
-            ResponseModel<MessagesReportResponse> respData = GSON.fromJson(response.getData(), type);
-            return respData.create();
+        int statusCode = response.getStatusCode();
+        ResponseModel<MessagesReportResponse> responseModel = getResponseModel(response,
+                new TypeToken<ResponseModel<MessagesReportResponse>>() {
+                }.getType());
+        if (statusCode > 0 && statusCode < HttpStatus.SC_BAD_REQUEST) {
+            return responseModel.create();
         } else {
-            throw new HttpResponseException(response.getStatusCode(), response.getReasonPhrase());
+            throw new ApiException(response.getReasonPhrase(), statusCode, responseModel.getMessage(), null);
         }
     }
 
     @Override
     public MessagesDetailsResponse getMessagesDetails(Map<String, String> param) throws IOException {
         OTSRestResponse response = sendRequest(messageUrl.urlGetMessageDetails(), param);
-        if (response.getStatusCode() < 400) {
-            Type type = new TypeToken<ResponseModel<MessagesDetailsResponse>>() {
-            }.getType();
-            ResponseModel<MessagesDetailsResponse> respData = GSON.fromJson(response.getData(), type);
-            return respData.create();
+        int statusCode = response.getStatusCode();
+        ResponseModel<MessagesDetailsResponse> responseModel = getResponseModel(response,
+                new TypeToken<ResponseModel<MessagesDetailsResponse>>() {
+                }.getType());
+        if (statusCode > 0 && statusCode < HttpStatus.SC_BAD_REQUEST) {
+            return responseModel.create();
         } else {
-            throw new HttpResponseException(response.getStatusCode(), response.getReasonPhrase());
+            throw new ApiException(response.getReasonPhrase(), statusCode, responseModel.getMessage(), null);
         }
     }
 
     @Override
     public MessagesReportResponse getMessagesReport() throws IOException {
-        return getMessagesReport(new HashMap<String, String>());
+        return getMessagesReport(new HashMap<>());
     }
 
     @Override
@@ -164,7 +151,6 @@ public class MessagesResourceImpl extends AResource implements IMessageResource 
 
     @Override
     public MessagesDetailsResponse getMessagesDetails() throws IOException {
-        return getMessagesDetails(new HashMap<String, String>());
+        return getMessagesDetails(new HashMap<>());
     }
-
 }

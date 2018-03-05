@@ -23,8 +23,6 @@
  */
 package com.otsdc.sdk.resources.http;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.otsdc.sdk.OTSRestResponse;
 import com.otsdc.sdk.constant.ParamConstant;
@@ -32,34 +30,25 @@ import com.otsdc.sdk.model.ResponseModel;
 import com.otsdc.sdk.model.Voids;
 import com.otsdc.sdk.model.verify.GetCodeRequest;
 import com.otsdc.sdk.model.verify.GetCodeResponse;
-import com.otsdc.sdk.parser.serialize.DateConverter;
 import com.otsdc.sdk.resources.AResource;
+import com.otsdc.sdk.resources.ApiException;
 import com.otsdc.sdk.resources.IVerifyResource;
 import com.otsdc.sdk.resources.url.IVerifyUrl;
+import org.apache.http.HttpStatus;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.client.HttpResponseException;
-
 /**
- *
  * @author Eri Setiawan
  */
 public class VerifyResourceImpl extends AResource implements IVerifyResource {
-
-    private Gson GSON;
     private IVerifyUrl verifyUrl;
 
     public VerifyResourceImpl(String appSid, IVerifyUrl verifyUrl) {
         super(appSid);
         this.verifyUrl = verifyUrl;
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Date.class, new DateConverter());
-        GSON = gsonBuilder.create();
     }
 
     @Override
@@ -70,16 +59,14 @@ public class VerifyResourceImpl extends AResource implements IVerifyResource {
     @Override
     public GetCodeResponse getCode(Map<String, String> map) throws IOException {
         OTSRestResponse response = sendRequest(verifyUrl.urlGetCode(), map);
-        if (response.getStatusCode() < 400) {
-            Type type = new TypeToken<ResponseModel<GetCodeResponse>>() {
-            }.getType();
-            ResponseModel<GetCodeResponse> respData = GSON.fromJson(response.getData(), type);
-            return respData.create();
-        } else if (response.getStatusCode() == 400) {
-            GetCodeResponse resp = GSON.fromJson(response.getData(), GetCodeResponse.class);
-            return resp;
+        int statusCode = response.getStatusCode();
+        ResponseModel<GetCodeResponse> responseModel = getResponseModel(response,
+                new TypeToken<ResponseModel<GetCodeResponse>>() {
+                }.getType());
+        if (statusCode > 0 && statusCode < HttpStatus.SC_BAD_REQUEST) {
+            return responseModel.create();
         } else {
-            throw new HttpResponseException(response.getStatusCode(), response.getReasonPhrase());
+            throw new ApiException(response.getReasonPhrase(), statusCode, responseModel.getMessage(), null);
         }
     }
 
@@ -96,18 +83,15 @@ public class VerifyResourceImpl extends AResource implements IVerifyResource {
 
     @Override
     public ResponseModel<Voids> verifyNumber(Map<String, String> map) throws IOException {
-        OTSRestResponse otsResponse = sendRequest(verifyUrl.urlVerifyNumber(), map);
-        if (otsResponse.getStatusCode() < 400) {
-            Type type = new TypeToken<ResponseModel<Voids>>() {
-            }.getType();
-            ResponseModel<Voids> respData = GSON.fromJson(otsResponse.getData(), type);
-            return respData;
-        } else if (otsResponse.getStatusCode() == 400) {
-            ResponseModel<Voids> respData = GSON.fromJson(otsResponse.getData(), ResponseModel.class);
-            return respData;
+        OTSRestResponse response = sendRequest(verifyUrl.urlVerifyNumber(), map);
+        int statusCode = response.getStatusCode();
+        ResponseModel<Voids> responseModel = getResponseModel(response,
+                new TypeToken<ResponseModel<Voids>>() {
+                }.getType());
+        if (statusCode > 0 && statusCode < HttpStatus.SC_BAD_REQUEST) {
+            return responseModel.create();
         } else {
-            throw new HttpResponseException(otsResponse.getStatusCode(), otsResponse.getReasonPhrase());
+            throw new ApiException(response.getReasonPhrase(), statusCode, responseModel.getMessage(), null);
         }
     }
-
 }

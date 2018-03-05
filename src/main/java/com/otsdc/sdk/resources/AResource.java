@@ -23,29 +23,37 @@
  */
 package com.otsdc.sdk.resources;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.otsdc.sdk.HttpSender;
 import com.otsdc.sdk.OTSRestResponse;
 import com.otsdc.sdk.constant.ParamConstant;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.otsdc.sdk.model.ResponseModel;
+import com.otsdc.sdk.parser.serialize.BooleanConverter;
+import com.otsdc.sdk.parser.serialize.DateConverter;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.*;
+
 /**
- *
  * @author Eri Setiawan
  */
 public abstract class AResource implements IResource {
-
     private static final HttpSender HTTP_SENDER = new HttpSender();
+    private Gson GSON;
     private String appSid;
 
     public AResource(String appSid) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        BooleanConverter booleanConverter = new BooleanConverter();
+        gsonBuilder.registerTypeAdapter(Boolean.class, booleanConverter);
+        gsonBuilder.registerTypeAdapter(boolean.class, booleanConverter);
+        gsonBuilder.registerTypeAdapter(Date.class, new DateConverter());
+        GSON = gsonBuilder.create();
         this.appSid = appSid;
     }
 
@@ -59,14 +67,13 @@ public abstract class AResource implements IResource {
         this.appSid = appSid;
     }
 
-    public OTSRestResponse sendRequest(String url, List<NameValuePair> params) throws IOException {
+    protected OTSRestResponse sendRequest(String url, List<NameValuePair> params) throws IOException {
         params.add(new BasicNameValuePair(ParamConstant.APPSID, getAppSid()));
-        OTSRestResponse response = HTTP_SENDER.request(url, params);
-        return response;
+        return HTTP_SENDER.request(url, params);
     }
 
-    public OTSRestResponse sendRequest(String url, Map<String, String> param) throws IOException {
-        ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+    protected OTSRestResponse sendRequest(String url, Map<String, String> param) throws IOException {
+        ArrayList<NameValuePair> params = new ArrayList<>();
         Set<Map.Entry<String, String>> entrySet = param.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
             params.add(new BasicNameValuePair(entry.getKey(), String.valueOf(entry.getValue())));
@@ -74,4 +81,11 @@ public abstract class AResource implements IResource {
         return sendRequest(url, params);
     }
 
+    protected <T extends ResponseModel> ResponseModel<T> getResponseModel(OTSRestResponse response, Type type) {
+        try {
+            return GSON.fromJson(response.getData(), type);
+        } catch (JsonSyntaxException e) {
+            throw new ApiException("Unable to parse the server's response", e);
+        }
+    }
 }
