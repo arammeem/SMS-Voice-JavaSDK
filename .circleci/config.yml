@@ -1,0 +1,43 @@
+version: 2
+jobs:
+  build_N_test:
+    working_directory: ~/work
+    docker:
+      - image: arammeem16/cijava:8u102-0.0.4
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          key: m2-cache-{{ checksum "pom.xml" }}
+      - run:
+          name: Prepare it
+          command: |
+            mvn -q dependency:resolve-plugins
+            mvn -q clean test -DskipTests
+            true
+      - run:
+          name: Test it
+          command: |
+            mvn -q verify
+            mkdir -p ~/.circleci.reports/junit/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/.circleci.reports/junit/ \;
+            true
+      - store_artifacts:
+          path: ~/.circleci.reports/
+      - save_cache:
+          key: m2-cache-{{ checksum "pom.xml" }}
+          paths:
+            - ~/.m2
+      - run:
+          name: Deploy it
+          command: |
+            if   [[ "$CIRCLE_BRANCH" =~ develop ]]; then mvn -e -DskipTests deploy
+            fi
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build_N_test
