@@ -23,9 +23,7 @@
  */
 package com.otsdc.sdk;
 
-import java.io.IOException;
-import java.util.List;
-
+import com.otsdc.sdk.cmns.stream.InputStreamUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
@@ -40,10 +38,11 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
-import com.otsdc.sdk.cmns.stream.InputStreamUtil;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
- *
  * @author Eri Setiawan
  */
 public class HttpSender {
@@ -51,11 +50,17 @@ public class HttpSender {
     private static final Log log = LogFactory.getLog(HttpSender.class);
     private static final PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
     private static final CloseableHttpClient httpClient;
-    static{
-    	connectionManager.setMaxTotal(200);
-    	connectionManager.setDefaultMaxPerRoute(20);
-    	httpClient = HttpClients.custom().setConnectionManager(new PoolingHttpClientConnectionManager()).build();
+
+    static {
+        connectionManager.setMaxTotal(200);
+        connectionManager.setDefaultMaxPerRoute(20);
+        httpClient = HttpClients.custom().setConnectionManager(new PoolingHttpClientConnectionManager()).build();
     }
+
+    public static PoolingHttpClientConnectionManager getConnectionmanager() {
+        return connectionManager;
+    }
+
     public OTSRestResponse request(String url, String data) throws IOException {
         return requestDefault(url, new StringEntity(data));
     }
@@ -63,7 +68,7 @@ public class HttpSender {
     public OTSRestResponse request(String url, List<NameValuePair> data) throws IOException {
         log.debug("URL:" + url);
         log.debug("DATA:" + data);
-        return requestDefault(url, new UrlEncodedFormEntity(data));
+        return requestDefault(url, new UrlEncodedFormEntity(data, StandardCharsets.UTF_8));
     }
 
     public OTSRestResponse requestDefault(String url, HttpEntity data) throws IOException {
@@ -89,10 +94,6 @@ public class HttpSender {
                 return orr;
             }
         };
-        OTSRestResponse execute = httpClient.execute(post, rh);
-        return execute;
+        return httpClient.execute(post, rh);
     }
-    public static PoolingHttpClientConnectionManager getConnectionmanager() {
-		return connectionManager;
-	}
 }
