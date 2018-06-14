@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.otsdc</groupId>
     <artifactId>ots-java-sdk</artifactId>
-    <version>1.2</version>
+    <version>1.3</version>
     <name>ots-java-sdk</name>
     <description>Java helper library for OTS Services</description>
     <url>http://otsdc.com</url>
